@@ -1,2 +1,1 @@
-# shopping-basket
-Shopping basket front-end project
+# Shopping basket front-end project
