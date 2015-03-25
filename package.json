@@ -1,0 +1,22 @@
+{
+  "name": "shopping-basket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robinscott/shopping-basket.git"
+  },
+  "author": "Robin Scott",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robinscott/shopping-basket/issues"
+  },
+  "homepage": "https://github.com/robinscott/shopping-basket"
+}
