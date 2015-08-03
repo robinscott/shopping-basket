@@ -1,5 +1,9 @@
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
+
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+
 // bower:scss
+//noinspection CssUnknownTarget
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
@@ -31,4 +35,10 @@ body {
   width:1000px; 
   height:66px; 
   background:url(../images/footer.png) top left no-repeat;
+}
+
+@media (min-width: 1200px) {
+  .container{
+    max-width: 1030px;
+  }
 }

@@ -7,3 +7,5 @@
 bower_components
 css
 node_modules
+.idea
+.tmp
