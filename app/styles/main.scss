@@ -1,44 +1,12 @@
-@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
-
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
 // bower:scss
 //noinspection CssUnknownTarget
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import
+"bootstrap-sass-official/assets/stylesheets/_bootstrap.scss",
+"partials/original",
+"partials/breakpoints",
+"partials/shoppingBasket";
 // endbower
 
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
 
-body {
-  padding: 0;
-}
-
-#head {
-  width:1000px; 
-  height:172px; 
-  background:url(../images/header.png) top left no-repeat;
-}
-
-#main {
-  width:920px; 
-  padding:0 30px 0 50px; 
-  min-height:200px; 
-  background:url(../images/page.png) top left repeat-y;
-}
-
-#foot {
-  width:1000px; 
-  height:66px; 
-  background:url(../images/footer.png) top left no-repeat;
-}
-
-@media (min-width: 1200px) {
-  .container{
-    max-width: 1030px;
-  }
-}
