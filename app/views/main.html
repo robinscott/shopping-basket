@@ -9,29 +9,33 @@
                 <h2 class="h4">1. Choose Product Bundle</h2>
             </header>
 
-            <fieldset class="col-xs-5">
-                <div class="radio basket-form__container">
-                    <label class="basket-form__label">
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-                        ANTS Performance Profiler
-                    </label>
-                </div>
-                <div class="radio basket-form__container">
-                    <label class="basket-form__label">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                        ANTS Performance Profiler Professional
-                    </label>
-                </div>
-                <div class="radio basket-form__container">
-                    <label class="basket-form__label">
-                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-                        .NET Developer Bundle
-                    </label>
-                </div>
-            </fieldset>
+            <div class="row">
+                <fieldset class="col-xs-6 basket-form__container">
+                    <div class="radio">
+                        <label class="basket-form__label">
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="PERF_PROFILER">
+                            ANTS Performance Profiler
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label class="basket-form__label">
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="PERF_PROFILER_PRO">
+                            ANTS Performance Profiler Professional
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label class="basket-form__label">
+                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="NET_DEV_BUNDLE">
+                            .NET Developer Bundle
+                        </label>
+                    </div>
+                    <button class="btn btn-default">Next</button>
+                </fieldset>
 
-            <div class="col-xs-5">
-
+                <div class="col-xs-6 product-details">
+                    <h2 class="h4">.NET Developer Bundle</h2>
+                    <p class="product-details__image">.NET Developer Bundle image</p>
+                </div>
             </div>
 
         </li>
