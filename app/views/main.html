@@ -1,44 +1,64 @@
-<h1 class="h2">Purchase <strong>ANTS Performance Profiler</strong></h1>
+<div class="row">
+    <h1 class="col-xs-offset-3 h2">Purchase <strong>ANTS Performance Profiler</strong></h1>
+</div>
 
-<form class="basket-form">
+<form class="row basket-form">
 
-    <ol class="accordion">
-        <li class="accordion__item">
+    <section>
+        <ol class="col-xs-30 col-xs-offset-3 accordion">
+            <li>
 
-            <header class="accordion__heading">
-                <h2 class="h4">1. Choose Product Bundle</h2>
-            </header>
+                <header class="accordion__heading">
+                    <h2 class="h4 accordion__heading--display">1. Choose Product Bundle</h2>
+                    <button class="btn btn-link pull-right" ng-click="accordion.toggle()">
+                        <span class="glyphicon"
+                              ng-class="{'glyphicon-chevron-right': !accordion.visible, 'glyphicon-chevron-down': accordion.visible}"></span>
+                    </button>
+                </header>
 
-            <div class="row">
-                <fieldset class="col-xs-6 basket-form__container">
-                    <div class="radio">
-                        <label class="basket-form__label">
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="PERF_PROFILER">
-                            ANTS Performance Profiler
-                        </label>
+                <div class="accordion__item" ng-show="accordion.visible">
+                    <div class="row">
+                        <fieldset class="col-xs-24 basket-form__container">
+                            <div class="radio">
+                                <label class="basket-form__label">
+                                    <input type="radio" name="productChoice" ng-model="product.chosenProduct"
+                                           value="ANTS Performance Profiler">
+                                    ANTS Performance Profiler
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="basket-form__label">
+                                    <input type="radio" name="productChoice" ng-model="product.chosenProduct"
+                                           value="ANTS Performance Profiler Professional">
+                                    ANTS Performance Profiler Professional
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="basket-form__label">
+                                    <input type="radio" name="productChoice" ng-model="product.chosenProduct"
+                                           value=".NET Developer Bundle">
+                                    .NET Developer Bundle
+                                </label>
+                            </div>
+                            <button class="btn btn-default">Next</button>
+                        </fieldset>
+
+                        <div class="col-xs-24 product-details" ng-if="product.chosenProduct">
+                            <h2 class="h5">{{ product.chosenProduct }}</h2>
+
+                            <p class="product-details__image">
+                                <small>{{ product.chosenProduct + ' image' }}</small>
+                            </p>
+                        </div>
                     </div>
-                    <div class="radio">
-                        <label class="basket-form__label">
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="PERF_PROFILER_PRO">
-                            ANTS Performance Profiler Professional
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label class="basket-form__label">
-                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="NET_DEV_BUNDLE">
-                            .NET Developer Bundle
-                        </label>
-                    </div>
-                    <button class="btn btn-default">Next</button>
-                </fieldset>
-
-                <div class="col-xs-6 product-details">
-                    <h2 class="h4">.NET Developer Bundle</h2>
-                    <p class="product-details__image">.NET Developer Bundle image</p>
                 </div>
-            </div>
 
-        </li>
-    </ol>
+            </li>
+        </ol>
+    </section>
+
+    <aside class="col-xs-13 summary">
+        Blah
+    </aside>
 
 </form>

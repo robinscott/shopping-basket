@@ -1,4 +1,7 @@
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
+
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+$grid-columns: 48;
 
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
@@ -7,4 +10,5 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import
 "partials/original",
 "partials/breakpoints",
-"partials/shoppingBasket";
+"partials/product",
+"partials/summary";

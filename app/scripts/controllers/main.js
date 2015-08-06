@@ -9,10 +9,16 @@
  */
 angular.module('shoppingBasketApp')
   .controller('MainCtrl', function ($scope) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma',
-      'Robin'
-    ];
+
+    $scope.accordion = {
+        visible: true,
+        toggle: function() {
+            return this.visible = !this.visible;
+        }
+    };
+
+    $scope.product = {
+      chosenProduct: ''
+    };
+
   });
