@@ -10,13 +10,13 @@
 
                 <header class="accordion__heading">
                     <h2 class="h4 accordion__heading--display">1. Choose Product Bundle</h2>
-                    <button class="btn btn-link pull-right" ng-click="accordion.toggle()">
+                    <button class="btn btn-link pull-right" ng-click="accordion.section1Collapsed = !accordion.section1Collapsed">
                         <span class="glyphicon"
-                              ng-class="{'glyphicon-chevron-right': !accordion.visible, 'glyphicon-chevron-down': accordion.visible}"></span>
+                              ng-class="{'glyphicon-chevron-left': accordion.section1Collapsed, 'glyphicon-chevron-down': !accordion.section1Collapsed}"></span>
                     </button>
                 </header>
 
-                <div class="accordion__item" ng-show="accordion.visible">
+                <div class="accordion__item" collapse="accordion.section1Collapsed">
                     <div class="row">
                         <fieldset class="col-xs-24 basket-form__container">
                             <div class="radio">

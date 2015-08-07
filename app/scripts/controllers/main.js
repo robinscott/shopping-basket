@@ -11,10 +11,9 @@ angular.module('shoppingBasketApp')
   .controller('MainCtrl', function ($scope) {
 
     $scope.accordion = {
-        visible: true,
-        toggle: function() {
-            return this.visible = !this.visible;
-        }
+        section1Collapsed: true,
+        section2Collapsed: false,
+        section3Collapsed: false
     };
 
     $scope.product = {
