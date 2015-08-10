@@ -8,16 +8,25 @@
  * Controller of the shoppingBasketApp
  */
 angular.module('shoppingBasketApp')
-  .controller('MainCtrl', function ($scope) {
+    .controller('MainCtrl', function ($scope, $http) {
 
-    $scope.accordion = {
-        section1Collapsed: true,
-        section2Collapsed: false,
-        section3Collapsed: false
-    };
+        $scope.accordion = {
+            section1Collapsed: false,
+            section2Collapsed: true,
+            section3Collapsed: true
+        };
 
-    $scope.product = {
-      chosenProduct: ''
-    };
+        $scope.product = {
+            chosenProduct: '',
+            products: null
+        };
 
-  });
+        $http.get('scripts/prices.json').
+            then(function (response) {
+                $scope.product.products = response.data;
+            }, function (response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });
+
+    });

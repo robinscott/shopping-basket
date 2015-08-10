@@ -8,9 +8,12 @@
         <ol class="col-xs-30 col-xs-offset-3 accordion">
             <li>
 
-                <header class="accordion__heading">
+                <header class="accordion__heading"
+                        ng-class="{'accordion__heading--no-underline': accordion.section1Collapsed}">
                     <h2 class="h4 accordion__heading--display">1. Choose Product Bundle</h2>
-                    <button class="btn btn-link pull-right" ng-click="accordion.section1Collapsed = !accordion.section1Collapsed">
+                    <button class="btn btn-link pull-right"
+                            ng-click="product.chosenProduct ? accordion.section1Collapsed = !accordion.section1Collapsed : null"
+                            ng-disabled="!product.chosenProduct">
                         <span class="glyphicon"
                               ng-class="{'glyphicon-chevron-left': accordion.section1Collapsed, 'glyphicon-chevron-down': !accordion.section1Collapsed}"></span>
                     </button>
@@ -54,11 +57,55 @@
                 </div>
 
             </li>
+
+            <li>
+
+                <header class="accordion__heading">
+                    <h2 class="h4 accordion__heading--display">2. How Many Licenses</h2>
+                    <button class="btn btn-link pull-right"
+                            ng-click="accordion.section2Collapsed = !accordion.section2Collapsed"
+                            ng-disabled="!product.chosenProduct">
+                        <span class="glyphicon"
+                              ng-class="{'glyphicon-chevron-left': accordion.section2Collapsed, 'glyphicon-chevron-down': !accordion.section2Collapsed}"></span>
+                    </button>
+                </header>
+
+                <div class="accordion__item accordion__item--last-item" collapse="accordion.section2Collapsed">
+
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-xs-46">
+
+                            <table class="table licenses">
+                                <thead>
+                                <tr ng-repeat="product in product.products | filter:product.chosenProduct:true">
+                                    <th>{{ product.name }}</th>
+                                    <th>Unit Cost</th>
+                                    <th>Discount</th>
+                                    <th>Cost per user</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr scope="row" ng-repeat="product in product.products | filter:product.chosenProduct:true">
+                                    <td>1 User License Pack</td>
+                                    <td>{{ product.unitcost }}</td>
+                                    <td>0%</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </li>
         </ol>
     </section>
 
     <aside class="col-xs-13 summary">
-        Blah
+
     </aside>
 
 </form>

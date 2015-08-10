@@ -12,11 +12,15 @@
 
   &__item {
     border: {
-      width: 0 1px 1px 1px;
+      width: 0 1px;
       style: solid;
     }
     min-height: 200px;
     @include clearfix;
+
+    &--last-item {
+      border-bottom: 1px solid;
+    }
   }
 
   &__heading {
@@ -28,8 +32,13 @@
       width: 1px;
       style: solid;
     }
+
     &--display {
       display: inline-block;
+    }
+
+    &--no-underline {
+      border-bottom: none;
     }
   }
 
