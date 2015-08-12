@@ -18,7 +18,12 @@ angular.module('shoppingBasketApp')
 
         $scope.product = {
             chosenProduct: '',
-            products: null
+            products: [],
+            userQuantity: 0
+        };
+
+        $scope.cost = function(price) {
+            return price * product.userQuantity;
         };
 
         $http.get('scripts/prices.json').

@@ -1,4 +1,19 @@
 
 .licenses {
   font-size: 12px;
+
+  &__header th {
+    text-align: right;
+  }
+
+  &__body {
+    text-align: right;
+
+    &--input {
+      width: 40px;
+      border: 1px solid #8c8c8c;
+      text-align: right;
+    }
+  }
+
 }

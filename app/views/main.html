@@ -76,7 +76,8 @@
                         <div class="col-xs-offset-1 col-xs-46">
 
                             <table class="table licenses">
-                                <thead>
+
+                                <thead class="licenses__header">
                                 <tr ng-repeat="product in product.products | filter:product.chosenProduct:true">
                                     <th>{{ product.name }}</th>
                                     <th>Unit Cost</th>
@@ -86,13 +87,23 @@
                                     <th>Total</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr scope="row" ng-repeat="product in product.products | filter:product.chosenProduct:true">
+
+                                <tbody class="licenses__body">
+                                <tr scope="row"
+                                    ng-repeat="product in product.products | filter:product.chosenProduct:true">
                                     <td>1 User License Pack</td>
-                                    <td>{{ product.unitcost }}</td>
+                                    <td>{{ product.unitcost | currency:'$' }}</td>
                                     <td>0%</td>
+                                    <td>{{ cost(product.unitcost) | currency:'$' }}</td>
+                                    <td class="form-inline">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="unitQuantity">Quantity</label>
+                                            <input id="unitQuantity" type="number" class="input-xs licenses__body--input" ng-model="product.user1Quantity">
+                                        </div>
+                                    </td>
                                 </tr>
                                 </tbody>
+
                             </table>
 
                         </div>
