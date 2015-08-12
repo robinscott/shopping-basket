@@ -94,14 +94,14 @@
                                     <td>1 User License Pack</td>
                                     <td>{{ product.unitcost | currency:'$' }}</td>
                                     <td>{{ 0 * 100 | number :1 }}%</td>
-                                    <td>{{ productDetails.calculateUnitcost(product.unitcost, 0) | currency:'$' }}</td>
+                                    <td>{{ productDetails.unitcost(product.unitcost, 0) | currency:'$' }}</td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unitQuantity">Quantity</label>
                                             <input id="unitQuantity" type="number" class="input-xs licenses__body--input" min="0" ng-model="productDetails.user1Quantity">
                                         </div>
                                     </td>
-                                    <td>{{ productDetails.calculateTotal(product.unitcost, 0) | currency:'$' }}</td>
+                                    <td>{{ productDetails.total(product.unitcost, 0) | currency:'$' }}</td>
                                 </tr>
                                 </tbody>
 

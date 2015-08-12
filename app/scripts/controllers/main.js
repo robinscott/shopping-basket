@@ -10,6 +10,17 @@
 angular.module('shoppingBasketApp')
     .controller('MainCtrl', function ($scope, $http) {
 
+        var calculateUnitcost = function(unitcost, discount) {
+            discount == 0 ? discount = 1 : discount;
+            return unitcost * discount;
+        };
+
+        var calculateTotal = function(unitcost, discount) {
+            discount == 0 ? discount = 100 : discount;
+            discount = discount / 100;
+            return (unitcost * discount) * this.user1Quantity;
+        };
+
         $scope.accordion = {
             section1Collapsed: false,
             section2Collapsed: true,
@@ -20,15 +31,8 @@ angular.module('shoppingBasketApp')
             chosenProduct: '',
             products: [],
             user1Quantity: 0,
-            calculateUnitcost: function(unitcost, discount) {
-                discount == 0 ? discount = 1 : discount;
-                return unitcost * discount;
-            },
-            calculateTotal: function(unitcost, discount) {
-                discount == 0 ? discount = 100 : discount;
-                discount = discount / 100;
-                return (unitcost * discount) * this.user1Quantity ;
-            }
+            unitcost: calculateUnitcost,
+            total: calculateTotal
         };
 
         $http.get('scripts/prices.json').
