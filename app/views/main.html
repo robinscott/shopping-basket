@@ -92,16 +92,30 @@
                                 <tr scope="row"
                                     ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
                                     <td>1 User License Pack</td>
-                                    <td>{{ product.unitcost | currency:'$' }}</td>
-                                    <td>{{ 0 * 100 | number :1 }}%</td>
-                                    <td>{{ productDetails.unitcost(product.unitcost, 0) | currency:'$' }}</td>
+                                    <td>{{ productDetails.unitcost(product.unitcost, 1) | currency:'$' }}</td>
+                                    <td>0%</td>
+                                    <td>{{ productDetails.CostPerUser(product.unitcost, 0) | currency:'$' }}</td>
                                     <td class="form-inline">
                                         <div class="form-group">
-                                            <label class="sr-only" for="unitQuantity">Quantity</label>
-                                            <input id="unitQuantity" type="number" class="input-xs licenses__body--input" min="0" ng-model="productDetails.user1Quantity">
+                                            <label class="sr-only" for="unit1Quantity">Quantity</label>
+                                            <input id="unit1Quantity" type="number" class="input-xs licenses__body--input" min="0" ng-model="productDetails.user1Quantity">
                                         </div>
                                     </td>
-                                    <td>{{ productDetails.total(product.unitcost, 0) | currency:'$' }}</td>
+                                    <td>{{ productDetails.total(product.unitcost, 0, productDetails.user1Quantity, 1) | currency:'$' }}</td>
+                                </tr>
+                                <tr scope="row"
+                                    ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
+                                    <td>5 User License Pack</td>
+                                    <td>{{ productDetails.unitcost(product.unitcost, 5) | currency:'$' }}</td>
+                                    <td>{{ product.discount5pack }}%</td>
+                                    <td>{{ productDetails.CostPerUser(product.unitcost, product.discount5pack) | currency:'$' }}</td>
+                                    <td class="form-inline">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="unit5Quantity">Quantity</label>
+                                            <input id="unit5Quantity" type="number" class="input-xs licenses__body--input" min="0" ng-model="productDetails.user5Quantity">
+                                        </div>
+                                    </td>
+                                    <td>{{ productDetails.total(product.unitcost, product.discount5pack, productDetails.user5Quantity, 5) | currency:'$' }}</td>
                                 </tr>
                                 </tbody>
 
