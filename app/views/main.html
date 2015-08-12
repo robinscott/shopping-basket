@@ -12,8 +12,8 @@
                         ng-class="{'accordion__heading--no-underline': accordion.section1Collapsed}">
                     <h2 class="h4 accordion__heading--display">1. Choose Product Bundle</h2>
                     <button class="btn btn-link pull-right"
-                            ng-click="product.chosenProduct ? accordion.section1Collapsed = !accordion.section1Collapsed : null"
-                            ng-disabled="!product.chosenProduct">
+                            ng-click="productDetails.chosenProduct ? accordion.section1Collapsed = !accordion.section1Collapsed : null"
+                            ng-disabled="!productDetails.chosenProduct">
                         <span class="glyphicon"
                               ng-class="{'glyphicon-chevron-left': accordion.section1Collapsed, 'glyphicon-chevron-down': !accordion.section1Collapsed}"></span>
                     </button>
@@ -24,21 +24,21 @@
                         <fieldset class="col-xs-24 basket-form__container">
                             <div class="radio">
                                 <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="product.chosenProduct"
+                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenProduct"
                                            value="ANTS Performance Profiler">
                                     ANTS Performance Profiler
                                 </label>
                             </div>
                             <div class="radio">
                                 <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="product.chosenProduct"
+                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenProduct"
                                            value="ANTS Performance Profiler Professional">
                                     ANTS Performance Profiler Professional
                                 </label>
                             </div>
                             <div class="radio">
                                 <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="product.chosenProduct"
+                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenProduct"
                                            value=".NET Developer Bundle">
                                     .NET Developer Bundle
                                 </label>
@@ -46,11 +46,11 @@
                             <button class="btn btn-default">Next</button>
                         </fieldset>
 
-                        <div class="col-xs-24 product-details" ng-if="product.chosenProduct">
-                            <h2 class="h5">{{ product.chosenProduct }}</h2>
+                        <div class="col-xs-24 product-details" ng-if="productDetails.chosenProduct">
+                            <h2 class="h5">{{ productDetails.chosenProduct }}</h2>
 
                             <p class="product-details__image">
-                                <small>{{ product.chosenProduct + ' image' }}</small>
+                                <small>{{ productDetails.chosenProduct + ' image' }}</small>
                             </p>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                     <h2 class="h4 accordion__heading--display">2. How Many Licenses</h2>
                     <button class="btn btn-link pull-right"
                             ng-click="accordion.section2Collapsed = !accordion.section2Collapsed"
-                            ng-disabled="!product.chosenProduct">
+                            ng-disabled="!productDetails.chosenProduct">
                         <span class="glyphicon"
                               ng-class="{'glyphicon-chevron-left': accordion.section2Collapsed, 'glyphicon-chevron-down': !accordion.section2Collapsed}"></span>
                     </button>
@@ -78,8 +78,8 @@
                             <table class="table licenses">
 
                                 <thead class="licenses__header">
-                                <tr ng-repeat="product in product.products | filter:product.chosenProduct:true">
-                                    <th>{{ product.name }}</th>
+                                <tr ng-repeat="productDetails in productDetails.products | filter:productDetails.chosenProduct:true">
+                                    <th>{{ productDetails.name }}</th>
                                     <th>Unit Cost</th>
                                     <th>Discount</th>
                                     <th>Cost per user</th>
@@ -90,17 +90,18 @@
 
                                 <tbody class="licenses__body">
                                 <tr scope="row"
-                                    ng-repeat="product in product.products | filter:product.chosenProduct:true">
+                                    ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
                                     <td>1 User License Pack</td>
                                     <td>{{ product.unitcost | currency:'$' }}</td>
-                                    <td>0%</td>
-                                    <td>{{ cost(product.unitcost) | currency:'$' }}</td>
+                                    <td>{{ 0 * 100 | number :1 }}%</td>
+                                    <td>{{ productDetails.calculateUnitcost(product.unitcost, 0) | currency:'$' }}</td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unitQuantity">Quantity</label>
-                                            <input id="unitQuantity" type="number" class="input-xs licenses__body--input" ng-model="product.user1Quantity">
+                                            <input id="unitQuantity" type="number" class="input-xs licenses__body--input" min="0" ng-model="productDetails.user1Quantity">
                                         </div>
                                     </td>
+                                    <td>{{ productDetails.calculateTotal(product.unitcost, 0) | currency:'$' }}</td>
                                 </tr>
                                 </tbody>
 
