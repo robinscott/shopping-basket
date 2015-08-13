@@ -25,6 +25,10 @@ angular.module('shoppingBasketApp')
             return (discountedUnit * quantity) * userQuantity;
         };
 
+        var checkQuantityChosen = function() {
+            return $scope.productDetails.user1Quantity > 0 || $scope.productDetails.user5Quantity > 0 || $scope.productDetails.user10Quantity > 0;
+        };
+
         $scope.accordion = {
             section1Collapsed: false,
             section2Collapsed: true,
@@ -37,9 +41,11 @@ angular.module('shoppingBasketApp')
             user1Quantity: 0,
             user5Quantity: 0,
             user10Quantity: 0,
+            chosenSupport: '',
             unitcost: calculateUnitcost,
             CostPerUser: calculateCostPerUser,
-            total: calculateTotal
+            total: calculateTotal,
+            checkQuantityChosen: checkQuantityChosen
         };
 
         $http.get('scripts/prices.json').

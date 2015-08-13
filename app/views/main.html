@@ -43,7 +43,11 @@
                                     .NET Developer Bundle
                                 </label>
                             </div>
-                            <button class="btn btn-default">Next</button>
+                            <button class="btn btn-primary"
+                                    ng-click="accordion.section1Collapsed = !accordion.section1Collapsed; accordion.section2Collapsed = !accordion.section2Collapsed"
+                                    ng-disabled="!productDetails.chosenProduct">
+                                Next
+                            </button>
                         </fieldset>
 
                         <div class="col-xs-24 product-details" ng-if="productDetails.chosenProduct">
@@ -60,7 +64,8 @@
 
             <li>
 
-                <header class="accordion__heading">
+                <header class="accordion__heading"
+                        ng-class="{'accordion__heading--no-underline': accordion.section2Collapsed}">
                     <h2 class="h4 accordion__heading--display">2. How Many Licenses</h2>
                     <button class="btn btn-link pull-right"
                             ng-click="accordion.section2Collapsed = !accordion.section2Collapsed"
@@ -70,7 +75,7 @@
                     </button>
                 </header>
 
-                <div class="accordion__item accordion__item--last-item" collapse="accordion.section2Collapsed">
+                <div class="accordion__item" collapse="accordion.section2Collapsed">
 
                     <div class="row">
                         <div class="col-xs-offset-1 col-xs-46">
@@ -98,35 +103,133 @@
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit1Quantity">Quantity</label>
-                                            <input id="unit1Quantity" type="number" class="input-xs licenses__body--input" min="0" ng-model="productDetails.user1Quantity">
+                                            <input id="unit1Quantity" type="number"
+                                                   class="input-xs licenses__body--input" min="0"
+                                                   ng-model="productDetails.user1Quantity">
                                         </div>
                                     </td>
-                                    <td>{{ productDetails.total(product.unitcost, 0, productDetails.user1Quantity, 1) | currency:'$' }}</td>
+                                    <td class="licenses__body--total">{{ productDetails.total(product.unitcost, 0,
+                                        productDetails.user1Quantity, 1) | currency:'$' }}
+                                    </td>
                                 </tr>
                                 <tr scope="row"
                                     ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
                                     <td>5 User License Pack</td>
                                     <td>{{ productDetails.unitcost(product.unitcost, 5) | currency:'$' }}</td>
-                                    <td>{{ product.discount5pack }}%</td>
-                                    <td>{{ productDetails.CostPerUser(product.unitcost, product.discount5pack) | currency:'$' }}</td>
+                                    <td><strong>{{ product.discount5pack }}%</strong></td>
+                                    <td>{{ productDetails.CostPerUser(product.unitcost, product.discount5pack) |
+                                        currency:'$' }}
+                                    </td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit5Quantity">Quantity</label>
-                                            <input id="unit5Quantity" type="number" class="input-xs licenses__body--input" min="0" ng-model="productDetails.user5Quantity">
+                                            <input id="unit5Quantity" type="number"
+                                                   class="input-xs licenses__body--input" min="0"
+                                                   ng-model="productDetails.user5Quantity">
                                         </div>
                                     </td>
-                                    <td>{{ productDetails.total(product.unitcost, product.discount5pack, productDetails.user5Quantity, 5) | currency:'$' }}</td>
+                                    <td class="licenses__body--total">{{ productDetails.total(product.unitcost,
+                                        product.discount5pack, productDetails.user5Quantity, 5) | currency:'$' }}
+                                    </td>
+                                </tr>
+                                <tr scope="row"
+                                    ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
+                                    <td>10 User License Pack</td>
+                                    <td>{{ productDetails.unitcost(product.unitcost, 10) | currency:'$' }}</td>
+                                    <td><strong>{{ product.discount10pack }}%</strong></td>
+                                    <td>{{ productDetails.CostPerUser(product.unitcost, product.discount10pack) |
+                                        currency:'$' }}
+                                    </td>
+                                    <td class="form-inline">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="unit10Quantity">Quantity</label>
+                                            <input id="unit10Quantity" type="number"
+                                                   class="input-xs licenses__body--input" min="0"
+                                                   ng-model="productDetails.user10Quantity">
+                                        </div>
+                                    </td>
+                                    <td class="licenses__body--total">{{ productDetails.total(product.unitcost,
+                                        product.discount10pack, productDetails.user10Quantity, 10) | currency:'$' }}
+                                    </td>
                                 </tr>
                                 </tbody>
 
                             </table>
 
+                            <button class="btn btn-primary"
+                                    ng-click="accordion.section2Collapsed = !accordion.section2Collapsed; accordion.section3Collapsed = !accordion.section3Collapsed"
+                                    ng-disabled="!productDetails.chosenProduct || !productDetails.checkQuantityChosen()">
+                                Next
+                            </button>
                         </div>
                     </div>
 
                 </div>
 
             </li>
+            <li>
+
+                <header class="accordion__heading">
+                    <h2 class="h4 accordion__heading--display">3. Support & Upgrades</h2>
+                    <button class="btn btn-link pull-right"
+                            ng-click="productDetails.chosenProduct ? accordion.section3Collapsed = !accordion.section3Collapsed : null"
+                            ng-disabled="!productDetails.chosenProduct || !productDetails.checkQuantityChosen()">
+                        <span class="glyphicon"
+                              ng-class="{'glyphicon-chevron-left': accordion.section3Collapsed, 'glyphicon-chevron-down': !accordion.section3Collapsed}"></span>
+                    </button>
+                </header>
+
+                <div class="accordion__item accordion__item--last-item" collapse="accordion.section3Collapsed || !productDetails.checkQuantityChosen()">
+                    <div class="row">
+                        <fieldset class="col-xs-24 basket-form__container" ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
+                            <div class="radio">
+                                <label class="basket-form__label">
+                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
+                                           value="No Support & Upgrades">
+                                    No Support & Upgrades
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="basket-form__label">
+                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
+                                           value="1 Year Support & Upgrades">
+                                    1 Year Support & Upgrades
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="basket-form__label">
+                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
+                                           value="2 Years Support & Upgrades">
+                                    2 Years Support & Upgrades
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="basket-form__label">
+                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
+                                           value="3 Years Support & Upgrades">
+                                    3 Years Support & Upgrades
+                                </label>
+                            </div>
+                            <button class="btn btn-primary"
+                                    ng-click="accordion.section1Collapsed = !accordion.section1Collapsed; accordion.section2Collapsed = !accordion.section2Collapsed"
+                                    ng-disabled="!productDetails.chosenProduct">
+                                Next - {{ productDetails.total }}
+                            </button>
+
+                        </fieldset>
+                        <div class="col-xs-24 product-details" ng-if="productDetails.chosenProduct">
+                            <h2 class="h5">{{ productDetails.chosenProduct }}</h2>
+
+                            <p class="product-details__image">
+                                <small>{{ productDetails.chosenProduct + ' image' }}</small>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </li>
+
         </ol>
     </section>
 
