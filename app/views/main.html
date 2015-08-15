@@ -22,25 +22,11 @@
                 <div class="accordion__item" collapse="accordion.section1Collapsed">
                     <div class="row">
                         <fieldset class="col-xs-24 basket-form__container">
-                            <div class="radio">
+                            <div class="radio" ng-repeat="product in productDetails.products">
                                 <label class="basket-form__label">
                                     <input type="radio" name="productChoice" ng-model="productDetails.chosenProduct"
-                                           value="ANTS Performance Profiler">
-                                    ANTS Performance Profiler
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenProduct"
-                                           value="ANTS Performance Profiler Professional">
-                                    ANTS Performance Profiler Professional
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenProduct"
-                                           value=".NET Developer Bundle">
-                                    .NET Developer Bundle
+                                           value="{{ product.name }}">
+                                    {{ product.name }}
                                 </label>
                             </div>
                             <button class="btn btn-primary"
@@ -83,8 +69,8 @@
                             <table class="table licenses">
 
                                 <thead class="licenses__header">
-                                <tr ng-repeat="productDetails in productDetails.products | filter:productDetails.chosenProduct:true">
-                                    <th>{{ productDetails.name }}</th>
+                                <tr ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
+                                    <th>{{ product.name }}</th>
                                     <th>Unit Cost</th>
                                     <th>Discount</th>
                                     <th>Cost per user</th>
@@ -179,44 +165,62 @@
                     </button>
                 </header>
 
-                <div class="accordion__item accordion__item--last-item" collapse="accordion.section3Collapsed || !productDetails.checkQuantityChosen()">
+                <div class="accordion__item accordion__item--last-item"
+                     collapse="accordion.section3Collapsed || !productDetails.checkQuantityChosen()">
                     <div class="row">
-                        <fieldset class="col-xs-24 basket-form__container" ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
-                            <div class="radio">
-                                <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
-                                           value="No Support & Upgrades">
-                                    No Support & Upgrades
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
-                                           value="1 Year Support & Upgrades">
-                                    1 Year Support & Upgrades
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
-                                           value="2 Years Support & Upgrades">
-                                    2 Years Support & Upgrades
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="productDetails.chosenSupport"
-                                           value="3 Years Support & Upgrades">
-                                    3 Years Support & Upgrades
-                                </label>
-                            </div>
-                            <button class="btn btn-primary"
-                                    ng-click="accordion.section1Collapsed = !accordion.section1Collapsed; accordion.section2Collapsed = !accordion.section2Collapsed"
-                                    ng-disabled="!productDetails.chosenProduct">
-                                Next - {{ productDetails.total }}
-                            </button>
-
-                        </fieldset>
+                        <div class="col-xs-24 basket-form__container">
+                            <table ng-repeat="product in productDetails.products | filter:productDetails.chosenProduct:true">
+                                <tr>
+                                    <td class="radio">
+                                        <label class="basket-form__label">
+                                            <input type="radio" name="productChoice"
+                                                   ng-model="productDetails.chosenSupport"
+                                                   value="No Support & Upgrades">
+                                            No Support & Upgrades
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="radio">
+                                        <label class="basket-form__label">
+                                            <input type="radio" name="productChoice"
+                                                   ng-model="productDetails.chosenSupport"
+                                                   value="1 Year Support & Upgrades">
+                                            1 Year Support & Upgrades
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="radio">
+                                        <label class="basket-form__label">
+                                            <input type="radio" name="productChoice"
+                                                   ng-model="productDetails.chosenSupport"
+                                                   value="2 Years Support & Upgrades">
+                                            2 Years Support & Upgrades
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="radio">
+                                        <label class="basket-form__label">
+                                            <input type="radio" name="productChoice"
+                                                   ng-model="productDetails.chosenSupport"
+                                                   value="3 Years Support & Upgrades">
+                                            3 Years Support & Upgrades
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary"
+                                                ng-click="accordion.section1Collapsed = !accordion.section1Collapsed; accordion.section2Collapsed = !accordion.section2Collapsed"
+                                                ng-disabled="!productDetails.chosenProduct">
+                                            Next - {{ productDetails.total }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="col-xs-24 product-details" ng-if="productDetails.chosenProduct">
                             <h2 class="h5">{{ productDetails.chosenProduct }}</h2>
 
