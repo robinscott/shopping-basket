@@ -8,6 +8,14 @@
 
   &__label {
     font-size: 15px;
+    &--smaller {
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__radio-container {
+    margin: 5px 0;
   }
 
   &__container {
