@@ -39,7 +39,20 @@ angular.module('shoppingBasketApp')
             for (var i = 0; i < $scope.productDetails.products.length; i++) {
                 if ($scope.productDetails.products[i].name === $scope.productDetails.selectedProduct) {
                     $scope.productDetails.currentProduct = $scope.productDetails.products[i];
-                    $scope.productDetails.currentProduct.discount1pack = 0;
+
+                    var $product = $scope.productDetails.currentProduct;
+
+                    // Calculate unit cost for license packs
+                    $product.userLicensePacks = [1, 5, 10];
+                    $product.user1unitcost = calculateUnitcost($product.userLicensePacks[0]);
+                    $product.user5unitcost = calculateUnitcost($product.userLicensePacks[1]);
+                    $product.user10unitcost = calculateUnitcost($product.userLicensePacks[2]);
+
+                    // Calculate cost per user for license packs
+                    $product.discount1pack = 0;
+                    $product.user1costPerUser = calculateCostPerUser($product.discount1pack);
+                    $product.user5costPerUser = calculateCostPerUser($product.discount5pack);
+                    $product.user10costPerUser = calculateCostPerUser($product.discount10pack);
                 }
             }
         };
@@ -56,11 +69,8 @@ angular.module('shoppingBasketApp')
             user1Quantity: 0,
             user5Quantity: 0,
             user10Quantity: 0,
-            userLicencePacks: [1, 5, 10],
             updateSelectedProduct: updateSelectedProduct,
             chosenSupport: '',
-            unitcost: calculateUnitcost,
-            CostPerUser: calculateCostPerUser,
             total: calculateTotal,
             checkQuantityChosen: checkQuantityChosen
         };

@@ -26,7 +26,7 @@
                                 <label class="basket-form__label">
                                     <input type="radio" name="productChoice" ng-model="productDetails.selectedProduct"
                                            ng-value="product.name" ng-change="productDetails.updateSelectedProduct()">
-                                    {{ product.name }}
+                                    {{product.name}}
                                 </label>
                             </div>
                             <button class="btn btn-primary"
@@ -37,10 +37,10 @@
                         </fieldset>
 
                         <div class="col-xs-24 product-details" ng-if="productDetails.selectedProduct">
-                            <h2 class="h5">{{ productDetails.currentProduct.name }}</h2>
+                            <h2 class="h5" ng-bind="productDetails.currentProduct.name"></h2>
 
                             <p class="product-details__image">
-                                <small>{{ productDetails.currentProduct.name + ' image' }}</small>
+                                <small ng-bind="productDetails.currentProduct.name + ' image'"></small>
                             </p>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
 
                                 <thead class="licenses__header">
                                 <tr>
-                                    <th>{{ productDetails.currentProduct.name }}</th>
+                                    <th ng-bind="productDetails.currentProduct.name"></th>
                                     <th>Unit Cost</th>
                                     <th>Discount</th>
                                     <th>Cost per user</th>
@@ -81,12 +81,10 @@
 
                                 <tbody class="licenses__body">
                                 <tr>
-                                    <td>1 User License Pack</td>
-                                    <td>{{ productDetails.unitcost(1) | currency:'$' }}</td>
-                                    <td>{{ productDetails.currentProduct.discount1pack }}%</td>
-                                    <td>{{ productDetails.CostPerUser(productDetails.currentProduct.discount1pack) |
-                                        currency:'$' }}
-                                    </td>
+                                    <td>{{productDetails.currentProduct.userLicensePacks[0]}} User License Pack</td>
+                                    <td ng-bind="productDetails.currentProduct.user1unitcost | currency:'$'"></td>
+                                    <td ng-bind="productDetails.currentProduct.discount1pack + '%'"></td>
+                                    <td ng-bind="productDetails.currentProduct.user1costPerUser | currency:'$'"></td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit1Quantity">Quantity</label>
@@ -95,17 +93,15 @@
                                                    ng-model="productDetails.user1Quantity">
                                         </div>
                                     </td>
-                                    <td class="licenses__body--total">{{ productDetails.total(0,
-                                        productDetails.user1Quantity, 1) | currency:'$' }}
-                                    </td>
+                                    <td class="licenses__body--total" ng-bind="productDetails.total(productDetails.currentProduct.discount1pack,
+                                        productDetails.user1Quantity, productDetails.currentProduct.userLicensePacks[0]) | currency:'$'"></td>
                                 </tr>
                                 <tr>
-                                    <td>5 User License Pack</td>
-                                    <td>{{ productDetails.unitcost(5) | currency:'$' }}</td>
-                                    <td><strong>{{ productDetails.currentProduct.discount5pack }}%</strong></td>
-                                    <td>{{ productDetails.CostPerUser(productDetails.currentProduct.discount5pack) |
-                                        currency:'$' }}
+                                    <td>{{productDetails.currentProduct.userLicensePacks[1]}}  User License Pack</td>
+                                    <td ng-bind="productDetails.currentProduct.user5unitcost | currency:'$'"></td>
+                                    <td><strong ng-bind="productDetails.currentProduct.discount5pack + '%'"></strong>
                                     </td>
+                                    <td ng-bind="productDetails.currentProduct.user5costPerUser | currency:'$'"></td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit5Quantity">Quantity</label>
@@ -114,18 +110,15 @@
                                                    ng-model="productDetails.user5Quantity">
                                         </div>
                                     </td>
-                                    <td class="licenses__body--total">{{
-                                        productDetails.total(productDetails.currentProduct.discount5pack,
-                                        productDetails.user5Quantity, 5) | currency:'$' }}
-                                    </td>
+                                    <td class="licenses__body--total" ng-bind="productDetails.total(productDetails.currentProduct.discount5pack,
+                                        productDetails.user5Quantity, productDetails.currentProduct.userLicensePacks[1]) | currency:'$'"></td>
                                 </tr>
                                 <tr>
-                                    <td>10 User License Pack</td>
-                                    <td>{{ productDetails.unitcost(10) | currency:'$' }}</td>
-                                    <td><strong>{{ productDetails.currentProduct.discount10pack }}%</strong></td>
-                                    <td>{{ productDetails.CostPerUser(productDetails.currentProduct.discount10pack) |
-                                        currency:'$' }}
+                                    <td>{{productDetails.currentProduct.userLicensePacks[2]}} User License Pack</td>
+                                    <td ng-bind="productDetails.currentProduct.user10unitcost | currency:'$'"></td>
+                                    <td><strong ng-bind="productDetails.currentProduct.discount10pack + '%'"></strong>
                                     </td>
+                                    <td ng-bind="productDetails.currentProduct.user10costPerUser | currency:'$'"></td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit10Quantity">Quantity</label>
@@ -134,10 +127,8 @@
                                                    ng-model="productDetails.user10Quantity">
                                         </div>
                                     </td>
-                                    <td class="licenses__body--total">{{
-                                        productDetails.total(productDetails.currentProduct.discount10pack,
-                                        productDetails.user10Quantity, 10) | currency:'$' }}
-                                    </td>
+                                    <td class="licenses__body--total" ng-bind="productDetails.total(productDetails.currentProduct.discount10pack,
+                                        productDetails.user10Quantity, productDetails.currentProduct.userLicensePacks[2]) | currency:'$'"></td>
                                 </tr>
                                 </tbody>
 
@@ -192,8 +183,8 @@
                                             1 Year Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right">{{ product.support1year |
-                                        currency:'$' }}</p></td>
+                                    <td><p class="basket-form__label--smaller text-right" ng-bind="product.support1year |
+                                        currency:'$'"></p></td>
                                 </tr>
                                 <tr>
                                     <td class="radio basket-form__radio-container">
@@ -204,8 +195,8 @@
                                             2 Years Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right">{{ product.support2year |
-                                        currency:'$' }}</p></td>
+                                    <td><p class="basket-form__label--smaller text-right" ng-bind="product.support2year |
+                                        currency:'$'"></p></td>
                                 </tr>
                                 <tr>
                                     <td class="radio basket-form__radio-container">
@@ -216,8 +207,8 @@
                                             3 Years Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right">{{ product.support3year |
-                                        currency:'$' }}</p></td>
+                                    <td><p class="basket-form__label--smaller text-right" ng-bind="product.support3year |
+                                        currency:'$'"></p></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -231,10 +222,10 @@
                             </table>
                         </div>
                         <div class="col-xs-24 product-details" ng-if="productDetails.selectedProduct">
-                            <h2 class="h5">{{ productDetails.selectedProduct }}</h2>
+                            <h2 class="h5" ng-bind="productDetails.selectedProduct"></h2>
 
                             <p class="product-details__image">
-                                <small>{{ productDetails.selectedProduct + ' image' }}</small>
+                                <small ng-bind="productDetails.selectedProduct + ' image'"></small>
                             </p>
                         </div>
 
