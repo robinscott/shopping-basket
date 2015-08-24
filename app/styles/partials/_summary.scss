@@ -8,3 +8,24 @@
     radius: 7px;
   }
 }
+
+.summary-table {
+  width: 100%;
+
+  &__heading {
+    font-weight: normal;
+  }
+
+  &--align-right {
+    text-align: right;
+  }
+
+  &__total {
+    border-top: 2px solid;
+
+    &--bold {
+      font-weight: bold;
+      font-size: 17px;
+    }
+  }
+}

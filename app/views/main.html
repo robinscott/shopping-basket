@@ -97,7 +97,7 @@
                                         productDetails.user1Quantity, productDetails.currentProduct.userLicensePacks[0]) | currency:'$'"></td>
                                 </tr>
                                 <tr>
-                                    <td>{{productDetails.currentProduct.userLicensePacks[1]}}  User License Pack</td>
+                                    <td>{{productDetails.currentProduct.userLicensePacks[1]}} User License Pack</td>
                                     <td ng-bind="productDetails.currentProduct.user5unitcost | currency:'$'"></td>
                                     <td><strong ng-bind="productDetails.currentProduct.discount5pack + '%'"></strong>
                                     </td>
@@ -161,7 +161,7 @@
                      collapse="accordion.section3Collapsed || !productDetails.checkQuantityChosen()">
                     <div class="row">
                         <div class="col-xs-24 basket-form__container">
-                            <table ng-repeat="product in productDetails.products | filter:productDetails.selectedProduct:true">
+                            <table>
                                 <tr>
                                     <td class="radio basket-form__radio-container">
                                         <label class="basket-form__label--smaller">
@@ -183,7 +183,7 @@
                                             1 Year Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right" ng-bind="product.support1year |
+                                    <td><p class="basket-form__label--smaller text-right" ng-bind="productDetails.currentProduct.support1year |
                                         currency:'$'"></p></td>
                                 </tr>
                                 <tr>
@@ -195,7 +195,7 @@
                                             2 Years Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right" ng-bind="product.support2year |
+                                    <td><p class="basket-form__label--smaller text-right" ng-bind="productDetails.currentProduct.support2year |
                                         currency:'$'"></p></td>
                                 </tr>
                                 <tr>
@@ -207,15 +207,14 @@
                                             3 Years Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right" ng-bind="product.support3year |
+                                    <td><p class="basket-form__label--smaller text-right" ng-bind="productDetails.currentProduct.support3year |
                                         currency:'$'"></p></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <button class="btn btn-primary"
-                                                ng-click="accordion.section1Collapsed = !accordion.section1Collapsed; accordion.section2Collapsed = !accordion.section2Collapsed"
-                                                ng-disabled="!productDetails.selectedProduct">
-                                            Next
+                                                ng-disabled="!productDetails.chosenSupport">
+                                            Checkout now
                                         </button>
                                     </td>
                                 </tr>
@@ -238,7 +237,23 @@
     </section>
 
     <aside class="col-xs-13 summary">
+        <h2 class="h5">Basket Summary</h2>
+        <table class="summary-table">
+            <thead>
+            <tr>
+                <th ng-bind="productDetails.selectedProduct ? productDetails.selectedProduct : 'No product selected'" class="summary-table__heading"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
 
+            </tr>
+            <tr class="summary-table__total">
+                <td>Total</td>
+                <td class="summary-table__total--bold summary-table--align-right"></td>
+            </tr>
+            </tbody>
+        </table>
     </aside>
 
 </form>
