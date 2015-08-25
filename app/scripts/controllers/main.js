@@ -11,20 +11,20 @@ angular.module('shoppingBasketApp')
     .controller('MainCtrl', function ($scope, $http) {
 
         var calculateUnitcost = function (quantity) {
-            if($scope.productDetails.currentProduct) {
+            if ($scope.productDetails.currentProduct) {
                 return $scope.productDetails.currentProduct.unitcost * quantity;
             }
         };
 
         var calculateCostPerUser = function (discount) {
-            if($scope.productDetails.currentProduct) {
+            if ($scope.productDetails.currentProduct) {
                 discount = (100 - discount) / 100;
                 return $scope.productDetails.currentProduct.unitcost * discount;
             }
         };
 
         var calculateTotal = function (discount, quantity, userQuantity) {
-            if($scope.productDetails.currentProduct) {
+            if ($scope.productDetails.currentProduct) {
                 discount = (100 - discount) / 100;
                 var discountedUnit = $scope.productDetails.currentProduct.unitcost * discount;
                 return (discountedUnit * quantity) * userQuantity;
@@ -53,6 +53,17 @@ angular.module('shoppingBasketApp')
                     $product.user1costPerUser = calculateCostPerUser($product.discount1pack);
                     $product.user5costPerUser = calculateCostPerUser($product.discount5pack);
                     $product.user10costPerUser = calculateCostPerUser($product.discount10pack);
+
+                    // Calculate sub total
+                    $product.user1subTotal = function () {
+                        return calculateTotal($product.discount1pack, $scope.productDetails.user1Quantity, $product.userLicensePacks[0]);
+                    };
+                    $product.user5subTotal = function () {
+                        return calculateTotal($product.discount5pack, $scope.productDetails.user5Quantity, $product.userLicensePacks[1]);
+                    };
+                    $product.user10subTotal = function () {
+                        return calculateTotal($product.discount10pack, $scope.productDetails.user10Quantity, $product.userLicensePacks[2]);
+                    };
                 }
             }
         };

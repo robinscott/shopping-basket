@@ -93,8 +93,7 @@
                                                    ng-model="productDetails.user1Quantity">
                                         </div>
                                     </td>
-                                    <td class="licenses__body--total" ng-bind="productDetails.total(productDetails.currentProduct.discount1pack,
-                                        productDetails.user1Quantity, productDetails.currentProduct.userLicensePacks[0]) | currency:'$'"></td>
+                                    <td class="licenses__body--total" ng-bind="productDetails.currentProduct.user1subTotal() | currency:'$'"></td>
                                 </tr>
                                 <tr>
                                     <td>{{productDetails.currentProduct.userLicensePacks[1]}} User License Pack</td>
@@ -110,8 +109,7 @@
                                                    ng-model="productDetails.user5Quantity">
                                         </div>
                                     </td>
-                                    <td class="licenses__body--total" ng-bind="productDetails.total(productDetails.currentProduct.discount5pack,
-                                        productDetails.user5Quantity, productDetails.currentProduct.userLicensePacks[1]) | currency:'$'"></td>
+                                    <td class="licenses__body--total" ng-bind="productDetails.currentProduct.user5subTotal() | currency:'$'"></td>
                                 </tr>
                                 <tr>
                                     <td>{{productDetails.currentProduct.userLicensePacks[2]}} User License Pack</td>
@@ -127,8 +125,7 @@
                                                    ng-model="productDetails.user10Quantity">
                                         </div>
                                     </td>
-                                    <td class="licenses__body--total" ng-bind="productDetails.total(productDetails.currentProduct.discount10pack,
-                                        productDetails.user10Quantity, productDetails.currentProduct.userLicensePacks[2]) | currency:'$'"></td>
+                                    <td class="licenses__body--total" ng-bind="productDetails.currentProduct.user10subTotal() | currency:'$'"></td>
                                 </tr>
                                 </tbody>
 
