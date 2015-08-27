@@ -64,6 +64,43 @@ angular.module('shoppingBasketApp')
                     $product.user10subTotal = function () {
                         return calculateTotal($product.discount10pack, $scope.productDetails.user10Quantity, $product.userLicensePacks[2]);
                     };
+
+                    // Summary - calculate subtotal unit cost
+                    $product.user1subTotalUnitcost = function() {
+                        return $product.user1unitcost * $scope.productDetails.user1Quantity;
+                    };
+
+                    $product.user5subTotalUnitcost = function() {
+                        return $product.user5unitcost * $scope.productDetails.user5Quantity;
+                    };
+
+                    $product.user10subTotalUnitcost = function() {
+                        return $product.user10unitcost * $scope.productDetails.user10Quantity;
+                    };
+
+                    // Summary - calculate discount amount
+                    $product.user5discountAmount = function() {
+                        var subTotal = $product.user5unitcost * $scope.productDetails.user5Quantity;
+                        return ($product.discount5pack / 100) * subTotal;
+                    };
+
+                    $product.user10discountAmount = function() {
+                        var subTotal = $product.user10unitcost * $scope.productDetails.user10Quantity;
+                        return ($product.discount10pack / 100) * subTotal;
+                    };
+
+                    $product.support1YearSubtotal = function() {
+                        return $product.support1year * $scope.productDetails.user1Quantity;
+                    }
+
+                    $product.support5YearSubtotal = function() {
+                        return $product.support5year * $scope.productDetails.user5Quantity;
+                    }
+
+                    $product.support10YearSubtotal = function() {
+                        return $product.support10year * $scope.productDetails.user10Quantity;
+                    }
+
                 }
             }
         };

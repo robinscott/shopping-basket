@@ -11,6 +11,12 @@
 
 .summary-table {
   width: 100%;
+  font-size: 13px;
+
+  &__cell {
+    border-top: none !important;
+    padding-top: 0 !important;
+  }
 
   &__heading {
     font-weight: normal;
@@ -21,7 +27,6 @@
   }
 
   &__total {
-    border-top: 2px solid;
 
     &--bold {
       font-weight: bold;

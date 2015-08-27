@@ -88,8 +88,11 @@
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit1Quantity">Quantity</label>
-                                            <input id="unit1Quantity" type="number"
-                                                   class="input-xs licenses__body--input" min="0"
+                                            <input id="unit1Quantity"
+                                                   type="number"
+                                                   class="input-xs licenses__body--input"
+                                                   min="0"
+                                                   max="4"
                                                    ng-model="productDetails.user1Quantity">
                                         </div>
                                     </td>
@@ -104,8 +107,11 @@
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit5Quantity">Quantity</label>
-                                            <input id="unit5Quantity" type="number"
-                                                   class="input-xs licenses__body--input" min="0"
+                                            <input id="unit5Quantity"
+                                                   type="number"
+                                                   class="input-xs licenses__body--input"
+                                                   min="0"
+                                                   max="1"
                                                    ng-model="productDetails.user5Quantity">
                                         </div>
                                     </td>
@@ -120,8 +126,10 @@
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit10Quantity">Quantity</label>
-                                            <input id="unit10Quantity" type="number"
-                                                   class="input-xs licenses__body--input" min="0"
+                                            <input id="unit10Quantity"
+                                                   type="number"
+                                                   class="input-xs licenses__body--input"
+                                                   min="0"
                                                    ng-model="productDetails.user10Quantity">
                                         </div>
                                     </td>
@@ -235,18 +243,45 @@
 
     <aside class="col-xs-13 summary">
         <h2 class="h5">Basket Summary</h2>
-        <table class="summary-table">
+        <table class="table summary-table">
             <thead>
             <tr>
-                <th ng-bind="productDetails.selectedProduct ? productDetails.selectedProduct : 'No product selected'" class="summary-table__heading"></th>
+                <th colspan="3" ng-bind="productDetails.selectedProduct ? productDetails.selectedProduct : 'No product selected'" class="summary-table__heading"></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-
+            <tr ng-if="productDetails.user1Quantity">
+                <td ng-bind="productDetails.user1Quantity"></td>
+                <td>{{productDetails.currentProduct.userLicensePacks[0]}} User License Pack</td>
+                <td ng-bind="productDetails.currentProduct.user1subTotalUnitcost() | currency:'$'"></td>
+            </tr>
+            <tr ng-if="productDetails.user5Quantity">
+                <td ng-bind="productDetails.user5Quantity"></td>
+                <td>{{productDetails.currentProduct.userLicensePacks[1]}} User License Pack</td>
+                <td ng-bind="productDetails.currentProduct.user5subTotalUnitcost() | currency:'$'"></td>
+            </tr>
+            <tr ng-if="productDetails.user5Quantity">
+                <td class="summary-table__cell"></td>
+                <td class="summary-table__cell">Discount ({{productDetails.currentProduct.discount5pack}}%)</td>
+                <td class="summary-table__cell">-{{productDetails.currentProduct.user5discountAmount() | currency:'$'}}</td>
+            </tr>
+            <tr ng-if="productDetails.user10Quantity">
+                <td ng-bind="productDetails.user10Quantity"></td>
+                <td>{{productDetails.currentProduct.userLicensePacks[2]}} User License Pack</td>
+                <td ng-bind="productDetails.currentProduct.user10subTotalUnitcost() | currency:'$'"></td>
+            </tr>
+            <tr ng-if="productDetails.user10Quantity">
+                <td class="summary-table__cell"></td>
+                <td class="summary-table__cell">Discount ({{productDetails.currentProduct.discount10pack}}%)</td>
+                <td class="summary-table__cell">-{{productDetails.currentProduct.user10discountAmount() | currency:'$'}}</td>
+            </tr>
+            <tr ng-if="productDetails.chosenSupport">
+                <td></td>
+                <td ng-bind="productDetails.chosenSupport"></td>
+                <td ng-bind="productDetails.currentProduct.support1YearSubtotal() | currency:'$'"></td>
             </tr>
             <tr class="summary-table__total">
-                <td>Total</td>
+                <td colspan="2">Total</td>
                 <td class="summary-table__total--bold summary-table--align-right"></td>
             </tr>
             </tbody>
