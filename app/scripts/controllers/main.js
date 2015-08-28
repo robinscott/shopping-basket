@@ -10,122 +10,119 @@
 angular.module('shoppingBasketApp')
     .controller('MainCtrl', function ($scope, $http) {
 
-        var calculateUnitcost = function (quantity) {
-            if ($scope.productDetails.currentProduct) {
-                return $scope.productDetails.currentProduct.unitcost * quantity;
+        var self = this;
+
+        // Accordion
+        self.section1Collapsed = false;
+        self.section2Collapsed = true;
+        self.section3Collapsed = true;
+
+        // Product
+        self.products = [];
+        self.selectedProduct = '';
+        self.currentProduct = {};
+        self.chosenSupport = '';
+        self.user1Quantity = 0;
+        self.user5Quantity = 0;
+        self.user10Quantity= 0;
+
+
+        self.calculateUnitcost = function (quantity) {
+            if (self.currentProduct) {
+                return self.currentProduct.unitcost * quantity;
             }
         };
 
-        var calculateCostPerUser = function (discount) {
-            if ($scope.productDetails.currentProduct) {
+        self.calculateCostPerUser = function (discount) {
+            if (self.currentProduct) {
                 discount = (100 - discount) / 100;
-                return $scope.productDetails.currentProduct.unitcost * discount;
+                return self.currentProduct.unitcost * discount;
             }
         };
 
-        var calculateTotal = function (discount, quantity, userQuantity) {
-            if ($scope.productDetails.currentProduct) {
+        self.calculateTotal = function (discount, quantity, userQuantity) {
+            if (self.currentProduct) {
                 discount = (100 - discount) / 100;
-                var discountedUnit = $scope.productDetails.currentProduct.unitcost * discount;
+                var discountedUnit = self.currentProduct.unitcost * discount;
                 return (discountedUnit * quantity) * userQuantity;
             }
         };
 
-        var checkQuantityChosen = function () {
-            return $scope.productDetails.user1Quantity > 0 || $scope.productDetails.user5Quantity > 0 || $scope.productDetails.user10Quantity > 0;
+        self.checkQuantityChosen = function () {
+            return self.user1Quantity > 0 || self.user5Quantity > 0 || self.user10Quantity > 0;
         };
 
-        var updateSelectedProduct = function () {
-            for (var i = 0; i < $scope.productDetails.products.length; i++) {
-                if ($scope.productDetails.products[i].name === $scope.productDetails.selectedProduct) {
-                    $scope.productDetails.currentProduct = $scope.productDetails.products[i];
-
-                    var $product = $scope.productDetails.currentProduct;
+        self.updateSelectedProduct = function () {
+            for (var i = 0; i < self.products.length; i++) {
+                if (self.products[i].name === self.selectedProduct) {
+                    self.currentProduct = self.products[i];
 
                     // Calculate unit cost for license packs
-                    $product.userLicensePacks = [1, 5, 10];
-                    $product.user1unitcost = calculateUnitcost($product.userLicensePacks[0]);
-                    $product.user5unitcost = calculateUnitcost($product.userLicensePacks[1]);
-                    $product.user10unitcost = calculateUnitcost($product.userLicensePacks[2]);
+                    self.currentProduct.userLicensePacks = [1, 5, 10];
+                    self.currentProduct.user1unitcost = self.calculateUnitcost(self.currentProduct.userLicensePacks[0]);
+                    self.currentProduct.user5unitcost = self.calculateUnitcost(self.currentProduct.userLicensePacks[1]);
+                    self.currentProduct.user10unitcost = self.calculateUnitcost(self.currentProduct.userLicensePacks[2]);
 
                     // Calculate cost per user for license packs
-                    $product.discount1pack = 0;
-                    $product.user1costPerUser = calculateCostPerUser($product.discount1pack);
-                    $product.user5costPerUser = calculateCostPerUser($product.discount5pack);
-                    $product.user10costPerUser = calculateCostPerUser($product.discount10pack);
+                    self.currentProduct.discount1pack = 0;
+                    self.currentProduct.user1costPerUser = self.calculateCostPerUser(self.currentProduct.discount1pack);
+                    self.currentProduct.user5costPerUser = self.calculateCostPerUser(self.currentProduct.discount5pack);
+                    self.currentProduct.user10costPerUser = self.calculateCostPerUser(self.currentProduct.discount10pack);
 
                     // Calculate sub total
-                    $product.user1subTotal = function () {
-                        return calculateTotal($product.discount1pack, $scope.productDetails.user1Quantity, $product.userLicensePacks[0]);
+                    self.currentProduct.user1subTotal = function () {
+                        return self.calculateTotal(self.currentProduct.discount1pack, self.user1Quantity, self.currentProduct.userLicensePacks[0]);
                     };
-                    $product.user5subTotal = function () {
-                        return calculateTotal($product.discount5pack, $scope.productDetails.user5Quantity, $product.userLicensePacks[1]);
+                    self.currentProduct.user5subTotal = function () {
+                        return self.calculateTotal(self.currentProduct.discount5pack, self.user5Quantity, self.currentProduct.userLicensePacks[1]);
                     };
-                    $product.user10subTotal = function () {
-                        return calculateTotal($product.discount10pack, $scope.productDetails.user10Quantity, $product.userLicensePacks[2]);
+                    self.currentProduct.user10subTotal = function () {
+                        return self.calculateTotal(self.currentProduct.discount10pack, self.user10Quantity, self.currentProduct.userLicensePacks[2]);
                     };
 
                     // Summary - calculate subtotal unit cost
-                    $product.user1subTotalUnitcost = function() {
-                        return $product.user1unitcost * $scope.productDetails.user1Quantity;
+                    self.currentProduct.user1subTotalUnitcost = function() {
+                        return self.currentProduct.user1unitcost * self.user1Quantity;
                     };
 
-                    $product.user5subTotalUnitcost = function() {
-                        return $product.user5unitcost * $scope.productDetails.user5Quantity;
+                    self.currentProduct.user5subTotalUnitcost = function() {
+                        return self.currentProduct.user5unitcost * self.user5Quantity;
                     };
 
-                    $product.user10subTotalUnitcost = function() {
-                        return $product.user10unitcost * $scope.productDetails.user10Quantity;
+                    self.currentProduct.user10subTotalUnitcost = function() {
+                        return self.currentProduct.user10unitcost * self.user10Quantity;
                     };
 
                     // Summary - calculate discount amount
-                    $product.user5discountAmount = function() {
-                        var subTotal = $product.user5unitcost * $scope.productDetails.user5Quantity;
-                        return ($product.discount5pack / 100) * subTotal;
+                    self.currentProduct.user5discountAmount = function() {
+                        var subTotal = self.currentProduct.user5unitcost * self.user5Quantity;
+                        return (self.currentProduct.discount5pack / 100) * subTotal;
                     };
 
-                    $product.user10discountAmount = function() {
-                        var subTotal = $product.user10unitcost * $scope.productDetails.user10Quantity;
-                        return ($product.discount10pack / 100) * subTotal;
+                    self.currentProduct.user10discountAmount = function() {
+                        var subTotal = self.currentProduct.user10unitcost * self.user10Quantity;
+                        return (self.currentProduct.discount10pack / 100) * subTotal;
                     };
 
-                    $product.support1YearSubtotal = function() {
-                        return $product.support1year * $scope.productDetails.user1Quantity;
-                    }
+                    self.currentProduct.support1YearSubtotal = function() {
+                        return self.currentProduct.support1year * self.user1Quantity;
+                    };
 
-                    $product.support5YearSubtotal = function() {
-                        return $product.support5year * $scope.productDetails.user5Quantity;
-                    }
+                    self.currentProduct.support5YearSubtotal = function() {
+                        return self.currentProduct.support5year * self.user5Quantity;
+                    };
 
-                    $product.support10YearSubtotal = function() {
-                        return $product.support10year * $scope.productDetails.user10Quantity;
-                    }
+                    self.currentProduct.support10YearSubtotal = function() {
+                        return self.currentProduct.support10year * self.user10Quantity;
+                    };
 
                 }
             }
         };
 
-        $scope.accordion = {
-            section1Collapsed: false,
-            section2Collapsed: true,
-            section3Collapsed: true
-        };
-
-        $scope.productDetails = {
-            selectedProduct: '',
-            products: [],
-            user1Quantity: 0,
-            user5Quantity: 0,
-            user10Quantity: 0,
-            updateSelectedProduct: updateSelectedProduct,
-            chosenSupport: '',
-            total: calculateTotal,
-            checkQuantityChosen: checkQuantityChosen
-        };
-
         $http.get('scripts/prices.json').
             then(function (response) {
-                $scope.productDetails.products = response.data;
+                self.products = response.data;
             }, function (response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
