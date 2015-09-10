@@ -24,8 +24,11 @@
                         <fieldset class="col-xs-24 basket-form__container">
                             <div class="radio" ng-repeat="product in main.products">
                                 <label class="basket-form__label">
-                                    <input type="radio" name="productChoice" ng-model="main.selectedProduct"
-                                           ng-value="product.name" ng-change="main.updateSelectedProduct()">
+                                    <input type="radio"
+                                           name="productChoice"
+                                           ng-model="main.selectedProduct"
+                                           ng-value="product"
+                                           ng-change="main.updateSelectedProduct()">
                                     {{product.name}}
                                 </label>
                             </div>
@@ -37,10 +40,10 @@
                         </fieldset>
 
                         <div class="col-xs-24 product-details" ng-if="main.selectedProduct">
-                            <h2 class="h5" ng-bind="main.currentProduct.name"></h2>
+                            <h2 class="h5" ng-bind="main.selectedProduct.name"></h2>
 
                             <p class="product-details__image">
-                                <small ng-bind="main.currentProduct.name + ' image'"></small>
+                                <small ng-bind="main.selectedProduct.name + ' image'"></small>
                             </p>
                         </div>
                     </div>
@@ -70,7 +73,7 @@
 
                                 <thead class="licenses__header">
                                 <tr>
-                                    <th ng-bind="main.currentProduct.name"></th>
+                                    <th ng-bind="main.selectedProduct.name"></th>
                                     <th>Unit Cost</th>
                                     <th>Discount</th>
                                     <th>Cost per user</th>
@@ -80,11 +83,11 @@
                                 </thead>
 
                                 <tbody class="licenses__body">
-                                <tr>
-                                    <td>{{main.currentProduct.userLicensePacks[0]}} User License Pack</td>
-                                    <td ng-bind="main.currentProduct.user1unitcost | currency:'$'"></td>
-                                    <td ng-bind="main.currentProduct.discount1pack + '%'"></td>
-                                    <td ng-bind="main.currentProduct.user1costPerUser | currency:'$'"></td>
+                                <tr ng-repeat="pack in main.selectedProduct.userLicensePacks">
+                                    <td>{{pack.amount}} User License Pack</td>
+                                    <td ng-bind="pack.unitCost | currency:'$'"></td>
+                                    <td ng-bind="pack.discountPack + '%'"></td>
+                                    <td ng-bind="pack.costPerUser | currency:'$'"></td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <label class="sr-only" for="unit1Quantity">Quantity</label>
@@ -93,50 +96,13 @@
                                                    class="input-xs licenses__body--input"
                                                    min="0"
                                                    max="4"
-                                                   ng-model="main.user1Quantity">
+                                                   ng-model="pack.userQuantity"
+                                                   ng-change="pack.updateQuantity()"
+                                                   placeholder="0">
                                         </div>
                                     </td>
                                     <td class="licenses__body--total"
-                                        ng-bind="main.currentProduct.user1subTotal() | currency:'$'"></td>
-                                </tr>
-                                <tr>
-                                    <td>{{main.currentProduct.userLicensePacks[1]}} User License Pack</td>
-                                    <td ng-bind="main.currentProduct.user5unitcost | currency:'$'"></td>
-                                    <td><strong ng-bind="main.currentProduct.discount5pack + '%'"></strong>
-                                    </td>
-                                    <td ng-bind="main.currentProduct.user5costPerUser | currency:'$'"></td>
-                                    <td class="form-inline">
-                                        <div class="form-group">
-                                            <label class="sr-only" for="unit5Quantity">Quantity</label>
-                                            <input id="unit5Quantity"
-                                                   type="number"
-                                                   class="input-xs licenses__body--input"
-                                                   min="0"
-                                                   max="1"
-                                                   ng-model="main.user5Quantity">
-                                        </div>
-                                    </td>
-                                    <td class="licenses__body--total"
-                                        ng-bind="main.currentProduct.user5subTotal() | currency:'$'"></td>
-                                </tr>
-                                <tr>
-                                    <td>{{main.currentProduct.userLicensePacks[2]}} User License Pack</td>
-                                    <td ng-bind="main.currentProduct.user10unitcost | currency:'$'"></td>
-                                    <td><strong ng-bind="main.currentProduct.discount10pack + '%'"></strong>
-                                    </td>
-                                    <td ng-bind="main.currentProduct.user10costPerUser | currency:'$'"></td>
-                                    <td class="form-inline">
-                                        <div class="form-group">
-                                            <label class="sr-only" for="unit10Quantity">Quantity</label>
-                                            <input id="unit10Quantity"
-                                                   type="number"
-                                                   class="input-xs licenses__body--input"
-                                                   min="0"
-                                                   ng-model="main.user10Quantity">
-                                        </div>
-                                    </td>
-                                    <td class="licenses__body--total"
-                                        ng-bind="main.currentProduct.user10subTotal() | currency:'$'"></td>
+                                        ng-bind="pack.userSubTotal || 0 | currency:'$'"></td>
                                 </tr>
                                 </tbody>
 
@@ -144,7 +110,7 @@
 
                             <button class="btn btn-primary"
                                     ng-click="main.section2Collapsed = !main.section2Collapsed; main.section3Collapsed = !main.section3Collapsed"
-                                    ng-disabled="!main.selectedProduct || !main.checkQuantityChosen()">
+                                    ng-disabled="!main.selectedProduct || !main.userQuantity">
                                 Next
                             </button>
                         </div>
@@ -159,64 +125,46 @@
                     <h2 class="h4 accordion__heading--display">3. Support & Upgrades</h2>
                     <button class="btn btn-link pull-right"
                             ng-click="main.selectedProduct ? main.section3Collapsed = !main.section3Collapsed : null"
-                            ng-disabled="!main.selectedProduct || !main.checkQuantityChosen()">
+                            ng-disabled="!main.selectedProduct || !main.userQuantity">
                         <span class="glyphicon"
                               ng-class="{'glyphicon-chevron-left': main.section3Collapsed, 'glyphicon-chevron-down': !main.section3Collapsed}"></span>
                     </button>
                 </header>
 
                 <div class="accordion__item accordion__item--last-item"
-                     collapse="main.section3Collapsed || !main.checkQuantityChosen()">
+                     collapse="main.section3Collapsed || !main.userQuantity">
                     <div class="row">
                         <div class="col-xs-24 basket-form__container">
                             <table>
-                                <tr>
+                                <tr ng-repeat-start="support in main.selectedProduct.userSupport" ng-if="$first">
                                     <td class="radio basket-form__radio-container">
                                         <label class="basket-form__label--smaller">
-                                            <input type="radio" name="productChoice"
+                                            <input type="radio" name="supportChoice"
                                                    ng-model="main.chosenSupport"
-                                                   value="No Support & Upgrades">
+                                                   value="0"
+                                                   ng-change="main.updateSupport()">
                                             No Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right"><strong>Cost per user</strong>
-                                    </p></td>
+                                    <td>
+                                        <p class="basket-form__label--smaller text-right"><strong>Cost per user</strong>
+                                        </p>
+                                    </td>
                                 </tr>
-                                <tr>
+                                <tr ng-repeat-end="">
                                     <td class="radio basket-form__radio-container">
                                         <label class="basket-form__label--smaller">
-                                            <input type="radio" name="productChoice"
+                                            <input type="radio" name="supportChoice"
                                                    ng-model="main.chosenSupport"
-                                                   value="1 Year Support & Upgrades">
-                                            1 Year Support & Upgrades
+                                                   ng-value="support.amount"
+                                                   ng-change="support.updateSupport()">
+                                            {{support.year}} Year Support & Upgrades
                                         </label>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right" ng-bind="main.currentProduct.support1year |
-                                        currency:'$'"></p></td>
-                                </tr>
-                                <tr>
-                                    <td class="radio basket-form__radio-container">
-                                        <label class="basket-form__label--smaller">
-                                            <input type="radio" name="productChoice"
-                                                   ng-model="main.chosenSupport"
-                                                   value="2 Years Support & Upgrades">
-                                            2 Years Support & Upgrades
-                                        </label>
+                                    <td>
+                                        <p class="basket-form__label--smaller text-right" ng-bind="support.amount |
+                                        currency:'$'"></p>
                                     </td>
-                                    <td><p class="basket-form__label--smaller text-right" ng-bind="main.currentProduct.support2year |
-                                        currency:'$'"></p></td>
-                                </tr>
-                                <tr>
-                                    <td class="radio basket-form__radio-container">
-                                        <label class="basket-form__label--smaller">
-                                            <input type="radio" name="productChoice"
-                                                   ng-model="main.chosenSupport"
-                                                   value="3 Years Support & Upgrades">
-                                            3 Years Support & Upgrades
-                                        </label>
-                                    </td>
-                                    <td><p class="basket-form__label--smaller text-right" ng-bind="main.currentProduct.support3year |
-                                        currency:'$'"></p></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -229,10 +177,10 @@
                             </table>
                         </div>
                         <div class="col-xs-24 product-details" ng-if="main.selectedProduct">
-                            <h2 class="h5" ng-bind="main.selectedProduct"></h2>
+                            <h2 class="h5" ng-bind="main.selectedProduct.name"></h2>
 
                             <p class="product-details__image">
-                                <small ng-bind="main.selectedProduct + ' image'"></small>
+                                <small ng-bind="main.selectedProduct.name + ' image'"></small>
                             </p>
                         </div>
 
@@ -249,45 +197,35 @@
         <table class="table summary-table">
             <thead>
             <tr>
-                <th colspan="3" ng-bind="main.selectedProduct ? main.selectedProduct : 'No product selected'"
+                <th colspan="3" ng-bind="main.selectedProduct.name ? main.selectedProduct.name : 'No product selected'"
                     class="summary-table__heading"></th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-if="main.user1Quantity">
-                <td ng-bind="main.user1Quantity"></td>
-                <td>{{main.currentProduct.userLicensePacks[0]}} User License Pack</td>
-                <td ng-bind="main.currentProduct.user1subTotalUnitcost() | currency:'$'"></td>
+
+            <tr ng-if="main.userQuantity">
+                <td ng-bind="main.userQuantity"></td>
+                <td>{{main.userLicense}} User License Pack</td>
+                <td class="summary-table--align-right" ng-bind="main.userSubTotalUnitcost | currency:'$'"></td>
             </tr>
-            <tr ng-if="main.user5Quantity">
-                <td ng-bind="main.user5Quantity"></td>
-                <td>{{main.currentProduct.userLicensePacks[1]}} User License Pack</td>
-                <td ng-bind="main.currentProduct.user5subTotalUnitcost() | currency:'$'"></td>
-            </tr>
-            <tr ng-if="main.user5Quantity">
+            <tr ng-if="main.userQuantity && main.userDiscount">
                 <td class="summary-table__cell"></td>
-                <td class="summary-table__cell">Discount ({{main.currentProduct.discount5pack}}%)</td>
-                <td class="summary-table__cell">-{{main.currentProduct.user5discountAmount() | currency:'$'}}</td>
+                <td class="summary-table__cell">Discount ({{main.userDiscount}}%)</td>
+                <td class="summary-table__cell summary-table--align-right">-{{main.userDiscountAmount | currency:'$'}}
+                </td>
             </tr>
-            <tr ng-if="main.user10Quantity">
-                <td ng-bind="main.user10Quantity"></td>
-                <td>{{main.currentProduct.userLicensePacks[2]}} User License Pack</td>
-                <td ng-bind="main.currentProduct.user10subTotalUnitcost() | currency:'$'"></td>
-            </tr>
-            <tr ng-if="main.user10Quantity">
-                <td class="summary-table__cell"></td>
-                <td class="summary-table__cell">Discount ({{main.currentProduct.discount10pack}}%)</td>
-                <td class="summary-table__cell">-{{main.currentProduct.user10discountAmount() | currency:'$'}}</td>
-            </tr>
-            <tr ng-if="main.chosenSupport">
+            <tr ng-if="main.chosenSupport != 0 && main.userSubTotalUnitcost">
                 <td></td>
-                <td ng-bind="main.chosenSupport"></td>
-                <td ng-bind="main.currentProduct.support1YearSubtotal() | currency:'$'"></td>
+                <td>{{main.supportYear}} years support</td>
+                <td class="summary-table--align-right" ng-bind="main.supportYearSubtotal | currency:'$'"></td>
             </tr>
+
             <tr class="summary-table__total">
-                <td colspan="2">Total</td>
-                <td class="summary-table__total--bold summary-table--align-right"></td>
+                <td class="summary-table__total--underlined" colspan="2">Total</td>
+                <td class="summary-table__total--bold summary-table__total--underlined summary-table--align-right"
+                    ng-bind="main.updateTotal() | currency:'$'"></td>
             </tr>
+
             </tbody>
         </table>
     </aside>

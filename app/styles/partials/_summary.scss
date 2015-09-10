@@ -30,7 +30,11 @@
 
     &--bold {
       font-weight: bold;
-      font-size: 17px;
+      font-size: 16px;
+    }
+
+    &--underlined {
+      border-top: 3px solid black !important;
     }
   }
 }

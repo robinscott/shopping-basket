@@ -19,105 +19,135 @@ angular.module('shoppingBasketApp')
 
         // Product
         self.products = [];
-        self.selectedProduct = '';
-        self.currentProduct = {};
-        self.chosenSupport = '';
-        self.user1Quantity = 0;
-        self.user5Quantity = 0;
-        self.user10Quantity= 0;
+        self.selectedProduct = null;
+        self.chosenSupport = 0;
+        self.userQuantity = 0;
+        self.userSubTotal = 0;
+        self.userSubTotalUnitcost = 0;
 
 
         self.calculateUnitcost = function (quantity) {
-            if (self.currentProduct) {
-                return self.currentProduct.unitcost * quantity;
+            if (self.selectedProduct) {
+                return self.selectedProduct.unitcost * quantity;
             }
         };
 
         self.calculateCostPerUser = function (discount) {
-            if (self.currentProduct) {
+            if (self.selectedProduct) {
                 discount = (100 - discount) / 100;
-                return self.currentProduct.unitcost * discount;
+                return self.selectedProduct.unitcost * discount;
             }
         };
 
-        self.calculateTotal = function (discount, quantity, userQuantity) {
-            if (self.currentProduct) {
+        self.calculateSubTotal = function (discount, quantity, userQuantity) {
+            if (self.selectedProduct) {
                 discount = (100 - discount) / 100;
-                var discountedUnit = self.currentProduct.unitcost * discount;
+                var discountedUnit = self.selectedProduct.unitcost * discount;
                 return (discountedUnit * quantity) * userQuantity;
             }
         };
 
-        self.checkQuantityChosen = function () {
-            return self.user1Quantity > 0 || self.user5Quantity > 0 || self.user10Quantity > 0;
+        self.calculateDiscountAmount = function (discount, subTotalUnitcost) {
+            return (discount / 100) * subTotalUnitcost;
         };
 
         self.updateSelectedProduct = function () {
-            for (var i = 0; i < self.products.length; i++) {
-                if (self.products[i].name === self.selectedProduct) {
-                    self.currentProduct = self.products[i];
+            self.selectedProduct.userLicensePacks = {
+                pack1: {
+                    amount: 1,
+                    unitCost: self.calculateUnitcost(1),
+                    discountPack: 0,
+                    costPerUser: self.selectedProduct.unitcost,
+                    updateQuantity: function () {
 
-                    // Calculate unit cost for license packs
-                    self.currentProduct.userLicensePacks = [1, 5, 10];
-                    self.currentProduct.user1unitcost = self.calculateUnitcost(self.currentProduct.userLicensePacks[0]);
-                    self.currentProduct.user5unitcost = self.calculateUnitcost(self.currentProduct.userLicensePacks[1]);
-                    self.currentProduct.user10unitcost = self.calculateUnitcost(self.currentProduct.userLicensePacks[2]);
+                        // Calculate basket subtotal
+                        this.userSubTotal = self.calculateSubTotal(0, this.userQuantity, 1);
+                        self.userSubTotalUnitcost = self.calculateUnitcost(1) * this.userQuantity;
 
-                    // Calculate cost per user for license packs
-                    self.currentProduct.discount1pack = 0;
-                    self.currentProduct.user1costPerUser = self.calculateCostPerUser(self.currentProduct.discount1pack);
-                    self.currentProduct.user5costPerUser = self.calculateCostPerUser(self.currentProduct.discount5pack);
-                    self.currentProduct.user10costPerUser = self.calculateCostPerUser(self.currentProduct.discount10pack);
+                        self.userDiscount = 0;
+                        self.userQuantity = this.userQuantity;
+                        self.userSubTotal = this.userSubTotal;
+                        self.userLicense = 1;
+                    }
+                },
+                pack5: {
+                    amount: 5,
+                    unitCost: self.calculateUnitcost(5),
+                    discountPack: self.selectedProduct.discount5pack,
+                    costPerUser: self.calculateCostPerUser(self.selectedProduct.discount5pack),
+                    updateQuantity: function () {
 
-                    // Calculate sub total
-                    self.currentProduct.user1subTotal = function () {
-                        return self.calculateTotal(self.currentProduct.discount1pack, self.user1Quantity, self.currentProduct.userLicensePacks[0]);
-                    };
-                    self.currentProduct.user5subTotal = function () {
-                        return self.calculateTotal(self.currentProduct.discount5pack, self.user5Quantity, self.currentProduct.userLicensePacks[1]);
-                    };
-                    self.currentProduct.user10subTotal = function () {
-                        return self.calculateTotal(self.currentProduct.discount10pack, self.user10Quantity, self.currentProduct.userLicensePacks[2]);
-                    };
+                        // Calculate basket subtotal
+                        this.userSubTotal = self.calculateSubTotal(self.selectedProduct.discount5pack, this.userQuantity, 5);
+                        self.userSubTotalUnitcost = self.calculateUnitcost(5) * this.userQuantity;
 
-                    // Summary - calculate subtotal unit cost
-                    self.currentProduct.user1subTotalUnitcost = function() {
-                        return self.currentProduct.user1unitcost * self.user1Quantity;
-                    };
+                        // Calculate summary discount amount
+                        self.userDiscountAmount = self.calculateDiscountAmount(self.selectedProduct.discount5pack, self.userSubTotalUnitcost);
 
-                    self.currentProduct.user5subTotalUnitcost = function() {
-                        return self.currentProduct.user5unitcost * self.user5Quantity;
-                    };
+                        self.userDiscount = self.selectedProduct.discount5pack;
+                        self.userQuantity = this.userQuantity;
+                        self.userSubTotal = this.userSubTotal;
+                        self.userLicense = 5;
+                    }
+                },
+                pack10: {
+                    amount: 10,
+                    unitCost: self.calculateUnitcost(10),
+                    discountPack: self.selectedProduct.discount10pack,
+                    costPerUser: self.calculateCostPerUser(self.selectedProduct.discount10pack),
+                    updateQuantity: function () {
 
-                    self.currentProduct.user10subTotalUnitcost = function() {
-                        return self.currentProduct.user10unitcost * self.user10Quantity;
-                    };
+                        // Calculate basket subtotal
+                        this.userSubTotal = self.calculateSubTotal(self.selectedProduct.discount10pack, this.userQuantity, 10);
+                        self.userSubTotalUnitcost = self.calculateUnitcost(10) * this.userQuantity;
 
-                    // Summary - calculate discount amount
-                    self.currentProduct.user5discountAmount = function() {
-                        var subTotal = self.currentProduct.user5unitcost * self.user5Quantity;
-                        return (self.currentProduct.discount5pack / 100) * subTotal;
-                    };
+                        // Calculate summary discount amount
+                        self.userDiscountAmount = self.calculateDiscountAmount(self.selectedProduct.discount10pack, self.userSubTotalUnitcost);
 
-                    self.currentProduct.user10discountAmount = function() {
-                        var subTotal = self.currentProduct.user10unitcost * self.user10Quantity;
-                        return (self.currentProduct.discount10pack / 100) * subTotal;
-                    };
-
-                    self.currentProduct.support1YearSubtotal = function() {
-                        return self.currentProduct.support1year * self.user1Quantity;
-                    };
-
-                    self.currentProduct.support5YearSubtotal = function() {
-                        return self.currentProduct.support5year * self.user5Quantity;
-                    };
-
-                    self.currentProduct.support10YearSubtotal = function() {
-                        return self.currentProduct.support10year * self.user10Quantity;
-                    };
-
+                        self.userDiscount = self.selectedProduct.discount10pack;
+                        self.userQuantity = this.userQuantity;
+                        self.userSubTotal = this.userSubTotal;
+                        self.userLicense = 10;
+                    }
+                }
+            };
+            self.selectedProduct.userSupport = {
+                support1: {
+                    year: 1,
+                    amount: self.selectedProduct.support1year,
+                    updateSupport: function () {
+                        self.supportYearSubtotal = (self.chosenSupport * self.userLicense) * self.userQuantity;
+                        self.supportYear = 1;
+                    }
+                },
+                support2: {
+                    year: 2,
+                    amount: self.selectedProduct.support2year,
+                    updateSupport: function () {
+                        self.supportYearSubtotal = (self.chosenSupport * self.userLicense) * self.userQuantity;
+                        self.supportYear = 2;
+                    }
+                },
+                support3: {
+                    year: 3,
+                    amount: self.selectedProduct.support3year,
+                    updateSupport: function () {
+                        self.supportYearSubtotal = (self.chosenSupport * self.userLicense) * self.userQuantity;
+                        self.supportYear = 3;
+                    }
                 }
             }
+        };
+
+        self.updateTotal = function () {
+            var subtotal = self.userSubTotalUnitcost;
+            if (self.userDiscountAmount) {
+                subtotal -= self.userDiscountAmount;
+            }
+            if (self.supportYearSubtotal) {
+                subtotal += self.supportYearSubtotal;
+            }
+            return subtotal;
         };
 
         $http.get('scripts/prices.json').
@@ -128,4 +158,5 @@ angular.module('shoppingBasketApp')
                 // or server returns response with an error status.
             });
 
-    });
+    })
+;
