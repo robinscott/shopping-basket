@@ -158,7 +158,7 @@
                                                    ng-model="main.chosenSupport"
                                                    ng-value="support.amount"
                                                    ng-change="support.updateSupport()">
-                                            {{support.year}} Year Support & Upgrades
+                                            {{support.year}} Year{{support.year > 1 ? 's' : ''}} Support & Upgrades
                                         </label>
                                     </td>
                                     <td>
