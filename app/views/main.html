@@ -136,32 +136,22 @@
                     <div class="row">
                         <div class="col-xs-24 basket-form__container">
                             <table>
-                                <tr ng-repeat-start="support in main.selectedProduct.userSupport" ng-if="$first">
-                                    <td class="radio basket-form__radio-container">
-                                        <label class="basket-form__label--smaller">
-                                            <input type="radio" name="supportChoice"
-                                                   ng-model="main.chosenSupport"
-                                                   value="0"
-                                                   ng-change="main.updateSupport()">
-                                            No Support & Upgrades
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <p class="basket-form__label--smaller text-right"><strong>Cost per user</strong>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr ng-repeat-end="">
+                                <tr ng-repeat="support in main.selectedProduct.userSupport">
                                     <td class="radio basket-form__radio-container">
                                         <label class="basket-form__label--smaller">
                                             <input type="radio" name="supportChoice"
                                                    ng-model="main.chosenSupport"
                                                    ng-value="support.amount"
                                                    ng-change="support.updateSupport()">
-                                            {{support.year}} Year{{support.year > 1 ? 's' : ''}} Support & Upgrades
+                                            <span ng-if="!support.year">No Support & Upgrades</span>
+                                            <span ng-if="support.year">{{support.year}} Year{{support.year > 1 ? 's' : ''}} Support & Upgrades</span>
                                         </label>
                                     </td>
-                                    <td>
+                                    <td ng-if="!support.year">
+                                        <p class="basket-form__label--smaller text-right"><strong>Cost per user</strong>
+                                        </p>
+                                    </td>
+                                    <td ng-if="support.year">
                                         <p class="basket-form__label--smaller text-right" ng-bind="support.amount |
                                         currency:'$'"></p>
                                     </td>

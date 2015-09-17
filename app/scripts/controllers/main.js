@@ -116,6 +116,13 @@ angular.module('shoppingBasketApp')
                 }
             };
             self.selectedProduct.userSupport = {
+                support0: {
+                    amount: 0,
+                    updateSupport: function () {
+                        self.supportYearSubtotal = self.calculateSupportYearSubtotal(self.chosenSupport, self.userLicense, self.userQuantity);
+                        self.supportYear = 0;
+                    }
+                },
                 support1: {
                     year: 1,
                     amount: self.selectedProduct.support1year,
